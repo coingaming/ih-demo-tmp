@@ -6,7 +6,11 @@ import { json } from "body-parser";
 import axios from "axios";
 
 const app = express();
-const port = 4000;
+const port = process.env.PORT ? Number(process.env.PORT) : 4000;
+const operatorId = process.env.OPERATOR_ID
+  ? Number(process.env.OPERATOR_ID)
+  : 816;
+const hub88Url = process.env.HUB88_URL || "http://server1.ih.testenv.io:8091";
 
 function readPem(filename: string) {
   return fs
@@ -20,26 +24,34 @@ const privateKey = readPem("private.pem");
 
 const hmCrypto = new HmCrypto(digestType, privateKey, publicKey);
 
+const hub88api = axios.create({ baseURL: hub88Url });
+hub88api.interceptors.request.use(config => {
+  const signature = hmCrypto.sign(JSON.stringify(config.data));
+  config.headers["X-Hub88-Signature"] = signature;
+
+  return config;
+});
+
 app.use(json());
 
 app.get("/games", (req, res) => {
-  const message = { operator_id: 816 };
-  const signature = hmCrypto.sign(JSON.stringify(message));
+  const message = { operator_id: operatorId };
 
-  axios
-    .post(
-      "http://server1.ih.testenv.io:8091/operator/generic/v2/game/list",
-      message,
-      { headers: { "X-Hub88-Signature": signature } }
-    )
+  hub88api
+    .post("/operator/generic/v2/game/list", message)
     .then(data => {
       res.send(data.data);
+    })
+    .catch(e => {
+      console.log(e.response);
+      res.status(400);
+      res.send(e.response.data);
     });
 });
 
 app.get("/game_url/:gameId", (req, res) => {
   const message = {
-    operator_id: 816,
+    operator_id: operatorId,
     game_id: Number(req.params.gameId),
     currency: "XXX",
     country: "EE",
@@ -48,21 +60,16 @@ app.get("/game_url/:gameId", (req, res) => {
     ip: "142.245.172.168",
     platform: "GPL_DESKTOP"
   };
-  console.log(message);
-  const signature = hmCrypto.sign(JSON.stringify(message));
 
-  axios
-    .post(
-      "http://server1.ih.testenv.io:8091/operator/generic/v2/game/url",
-      message,
-      { headers: { "X-Hub88-Signature": signature } }
-    )
+  hub88api
+    .post("/operator/generic/v2/game/url", message)
     .then(data => {
-      console.log(data);
       res.send(data.data);
     })
     .catch(e => {
       console.log(e.response);
+      res.status(400);
+      res.send(e.response.data);
     });
 });
 
