@@ -34,7 +34,7 @@ hub88api.interceptors.request.use(config => {
 
 app.use(json());
 
-app.get("/games", (req, res) => {
+app.get("/api/games", (req, res) => {
   const message = { operator_id: operatorId };
 
   hub88api
@@ -49,7 +49,7 @@ app.get("/games", (req, res) => {
     });
 });
 
-app.get("/game_url/:gameId", (req, res) => {
+app.get("/api/game_url/:gameId", (req, res) => {
   const message = {
     operator_id: operatorId,
     game_id: Number(req.params.gameId),
@@ -73,4 +73,4 @@ app.get("/game_url/:gameId", (req, res) => {
     });
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`App listening on port ${port}!`));

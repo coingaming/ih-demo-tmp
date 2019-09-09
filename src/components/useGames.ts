@@ -11,7 +11,7 @@ export const useGames = (): [Game[]] => {
   const [games, setGames] = useState<Game[]>([]);
 
   useEffect(() => {
-    axios.get("/games").then(res => setGames(res.data));
+    axios.get("/api/games").then(res => setGames(res.data));
   }, []);
 
   return [games];
