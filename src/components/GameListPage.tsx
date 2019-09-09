@@ -3,6 +3,7 @@ import { useGames } from "./useGames";
 import { RouteComponentProps, Link } from "@reach/router";
 import styled from "styled-components";
 import { Layout } from "./Layout";
+import { up } from "styled-breakpoints";
 
 const List = styled.div`
   display: flex;
@@ -10,8 +11,7 @@ const List = styled.div`
 `;
 
 const GameItem = styled(Link)`
-  margin-right: 32px;
-  margin-bottom: 64px;
+  margin-bottom: 32px;
   text-decoration: none;
   color: initial;
   transition: opacity 0.2s linear;
@@ -23,20 +23,42 @@ const GameItem = styled(Link)`
   &:hover {
     opacity: 0.7;
   }
+  ${up("tablet")} {
+    margin-right: 32px;
+    margin-bottom: 64px;
+  }
 `;
 
 const Image = styled.img`
-  min-width: 345px;
-  min-height: 300px;
-  width: 345px;
-  height: 300px;
+  min-width: 295px;
+  min-height: 256px;
+  width: 295px;
+  height: 256px;
+
+  ${up("tablet")} {
+    min-width: 345px;
+    min-height: 300px;
+    width: 345px;
+    height: 300px;
+  }
+
   border-radius: 4px;
   object-fit: cover;
 `;
 
 const Placeholder = styled.div`
-  width: 345px;
-  height: 300px;
+  min-width: 295px;
+  min-height: 256px;
+  width: 295px;
+  height: 256px;
+
+  ${up("tablet")} {
+    min-width: 345px;
+    min-height: 300px;
+    width: 345px;
+    height: 300px;
+  }
+
   color: #7e8389;
   display: flex;
   align-items: center;
@@ -60,7 +82,11 @@ type FilterButtonProps = {
 
 const Filters = styled.nav`
   display: flex;
-  margin-left: 32px;
+  flex-wrap: wrap;
+
+  ${up("tablet")} {
+    margin-left: 32px;
+  }
 `;
 
 const FilterItemButton = styled.button<FilterButtonProps>`
@@ -72,6 +98,7 @@ const FilterItemButton = styled.button<FilterButtonProps>`
   color: ${({ active }) => (active ? "#ed8858" : "#7e8389")};
   font-weight: 500;
   margin-right: 16px;
+  margin-bottom: 16px;
   cursor: pointer;
 `;
 

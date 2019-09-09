@@ -28,8 +28,8 @@ const Demo = styled.span`
 const Header = styled.header`
   display: flex;
   align-items: center;
-  height: 84px;
   box-sizing: border-box;
+  flex-wrap: wrap;
 `;
 
 type Props = {

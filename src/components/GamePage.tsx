@@ -4,6 +4,7 @@ import { RouteComponentProps } from "@reach/router";
 import { Layout } from "./Layout";
 import styled from "styled-components";
 import { useGame } from "./useGame";
+import { up } from "styled-breakpoints";
 
 type Props = RouteComponentProps & {
   gameId?: string;
@@ -11,11 +12,16 @@ type Props = RouteComponentProps & {
 
 const AspectContainer = styled.div`
   height: 0;
-  width: 50%;
+  width: 100%;
   overflow: hidden;
-  padding-top: 28.1%;
+  padding-top: 75%;
   position: relative;
   border-radius: 4px;
+  margin-bottom: 32px;
+  ${up("tablet")} {
+    width: 50%;
+    padding-top: 28.1%;
+  }
 `;
 
 const BackgroundImage = styled.img`
@@ -36,14 +42,19 @@ const Frame = styled.iframe`
 
 const Container = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `;
 
 const GameInformation = styled.div`
-  margin-left: 32px;
   padding: 16px;
   background-color: #fff;
   border-radius: 4px;
   box-shadow: 0 0 8px 2px rgba(204, 204, 204, 0.51);
+  flex: 1;
+  ${up("tablet")} {
+    margin-left: 32px;
+    flex: initial;
+  }
 `;
 
 const InfoTitle = styled.h3`
