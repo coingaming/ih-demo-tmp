@@ -25,14 +25,27 @@ const Demo = styled.span`
   font-weight: normal;
 `;
 
-export const Layout: React.FC = ({ children }) => {
+const Header = styled.header`
+  display: flex;
+  align-items: center;
+`;
+
+type Props = {
+  filterPocket?: React.ReactNode;
+};
+
+export const Layout: React.FC<Props> = ({ children, filterPocket }) => {
   return (
     <Container>
-      <StyledLink to="/">
-        <h1>
-          Hub88<Dot>.</Dot>io <Demo>Demo</Demo>
-        </h1>
-      </StyledLink>
+      <Header>
+        <StyledLink to="/">
+          <h1>
+            Hub88<Dot>.</Dot>io <Demo>Demo</Demo>
+          </h1>
+        </StyledLink>
+        {filterPocket}
+      </Header>
+
       {children}
     </Container>
   );
