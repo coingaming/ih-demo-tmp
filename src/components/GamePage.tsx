@@ -19,6 +19,7 @@ const AspectContainer = styled.div`
   border-radius: 4px;
   margin-bottom: 32px;
   ${up("tablet")} {
+    margin-bottom: 0;
     width: 50%;
     padding-top: 28.1%;
   }

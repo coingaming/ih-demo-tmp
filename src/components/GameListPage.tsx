@@ -91,15 +91,27 @@ const Filters = styled.nav`
 
 const FilterItemButton = styled.button<FilterButtonProps>`
   border-radius: 18px;
-  padding: 8px 16px;
+  padding-right: 16px;
+  padding-left: 16px;
+  height: 40px;
   border: none;
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+  border-radius: 50px;
   background-color: #fff;
   outline: none;
-  color: ${({ active }) => (active ? "#ed8858" : "#7e8389")};
-  font-weight: 500;
+  color: ${({ active }) => (active ? "#ed8858" : "rgb(125, 131, 139)")};
+  font-size: 14px;
+  font-weight: 600;
   margin-right: 16px;
   margin-bottom: 16px;
   cursor: pointer;
+  &:hover {
+    color: #ed8858;
+  }
+  ${up("tablet")} {
+    margin-bottom: 0;
+  }
 `;
 
 type FilterItemProps = {
