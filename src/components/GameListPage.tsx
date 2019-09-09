@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useGames } from "./useGames";
 import { RouteComponentProps, Link } from "@reach/router";
 import styled from "styled-components";
 import { Layout } from "./Layout";
 import { up } from "styled-breakpoints";
 import { ReactComponent as SearchIcon } from "./SearchIcon.svg";
+import { ReactComponent as CrossIcon } from "./CrossIcon.svg";
+import useOnClickOutside from "use-onclickoutside";
 
 const List = styled.div`
   display: flex;
@@ -144,8 +146,13 @@ const SearchFormWrap = styled.form<SearchFormWrapProps>`
   transition: width 500ms cubic-bezier(0.23, 1, 0.32, 1) 0s;
   overflow: hidden;
   margin-right: 32px;
-  width: ${({ isExpanded }) => (isExpanded ? 240 : 40)}px;
+  width: ${({ isExpanded }) => (isExpanded ? 280 : 40)}px;
   display: flex;
+  height: 40px;
+  margin-bottom: 16px;
+  ${up("tablet")} {
+    margin-bottom: 0;
+  }
 `;
 
 const SearchInput = styled.input`
@@ -177,27 +184,43 @@ type SearchFormProps = {
 
 const SearchForm: React.FC<SearchFormProps> = ({ value, onChange }) => {
   const [isShow, setShow] = useState(false);
+  const ref = useRef(null);
+  useOnClickOutside(ref, () => setShow(false));
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
   };
 
   return (
-    <SearchFormWrap onSubmit={handleSubmit} isExpanded={isShow}>
-      <ToggleSearch onClick={() => setShow(show => !show)}>
+    <SearchFormWrap onSubmit={handleSubmit} isExpanded={isShow} ref={ref}>
+      <ToggleSearch
+        onClick={e => {
+          setShow(!isShow);
+        }}
+      >
         <SearchIcon width="18px" height="18px" />
       </ToggleSearch>
       {isShow && (
-        <SearchInput
-          autoFocus
-          placeholder="Search games"
-          value={value}
-          onChange={e => {
-            const { value } = e.currentTarget;
-            onChange(value);
-          }}
-          onBlur={() => setShow(false)}
-        />
+        <>
+          <SearchInput
+            autoFocus
+            placeholder="Search games"
+            value={value}
+            onChange={e => {
+              const { value } = e.currentTarget;
+              onChange(value);
+            }}
+          />
+          {value ? (
+            <ToggleSearch
+              onClick={e => {
+                onChange("");
+              }}
+            >
+              <CrossIcon width="14px" height="14px" />
+            </ToggleSearch>
+          ) : null}
+        </>
       )}
     </SearchFormWrap>
   );
