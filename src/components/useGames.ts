@@ -1,19 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-
-type Game = {
-  game_id: number;
-  url_thumb: string | null;
-  name: string;
-  product: string;
-  category: string;
-};
-
-const fixResponse = (data: Game[]) =>
-  data.map(item => ({
-    ...item,
-    url_thumb: item.url_thumb === "null" ? null : item.url_thumb
-  }));
+import { Game, fixResponse } from "./game";
 
 export const useGames = () => {
   const [games, setGames] = useState<Game[]>([]);

@@ -3,6 +3,7 @@ import { useGameUrl } from "./useGameUrl";
 import { RouteComponentProps } from "@reach/router";
 import { Layout } from "./Layout";
 import styled from "styled-components";
+import { useGame } from "./useGame";
 
 type Props = RouteComponentProps & {
   gameId?: string;
@@ -10,11 +11,19 @@ type Props = RouteComponentProps & {
 
 const AspectContainer = styled.div`
   height: 0;
-  max-width: 50%;
+  width: 50%;
   overflow: hidden;
   padding-top: 28.1%;
   position: relative;
   border-radius: 4px;
+`;
+
+const BackgroundImage = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 `;
 
 const Frame = styled.iframe`
@@ -25,14 +34,80 @@ const Frame = styled.iframe`
   height: 100%;
 `;
 
-export const GamePage: React.FC<Props> = ({ gameId }) => {
-  const [gameUrl] = useGameUrl(Number(gameId));
+const Container = styled.div`
+  display: flex;
+`;
+
+const GameInformation = styled.div`
+  margin-left: 32px;
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 8px 2px rgba(204, 204, 204, 0.51);
+`;
+
+const InfoTitle = styled.h3`
+  margin-top: 0;
+`;
+
+const NameColumn = styled.td`
+  padding-right: 16px;
+  color: #7e8389;
+`;
+
+const capitalize = (s: string) => {
+  if (typeof s !== "string") return "";
+  return s.charAt(0).toLocaleUpperCase() + s.slice(1).toLocaleLowerCase();
+};
+
+export const GamePage: React.FC<Props> = props => {
+  const gameId = Number(props.gameId);
+  const [gameUrl] = useGameUrl(gameId);
+  const [game] = useGame(gameId);
 
   return (
     <Layout>
-      <AspectContainer>
-        <Frame src={gameUrl} title="game" frameBorder="none" />
-      </AspectContainer>
+      <Container>
+        <AspectContainer>
+          {game && game.url_background ? (
+            <BackgroundImage src={game.url_background} />
+          ) : null}
+          <Frame src={gameUrl} title="game" frameBorder="none" />
+        </AspectContainer>
+        {game ? (
+          <GameInformation>
+            <InfoTitle>Game information</InfoTitle>
+            <table>
+              <tbody>
+                <tr>
+                  <NameColumn>Name</NameColumn>
+                  <td>{game.name}</td>
+                </tr>
+                <tr>
+                  <NameColumn>Category</NameColumn>
+                  <td>{game.category}</td>
+                </tr>
+                <tr>
+                  <NameColumn>Product</NameColumn>
+                  <td>{game.product}</td>
+                </tr>
+                <tr>
+                  <NameColumn>Platforms</NameColumn>
+                  <td>
+                    {game.platforms
+                      .map(platform => capitalize(platform.replace("GPL_", "")))
+                      .join(", ")}
+                  </td>
+                </tr>
+                <tr>
+                  <NameColumn>Freebet Support</NameColumn>
+                  <td>{game.freebet_support ? "Yes" : "No"}</td>
+                </tr>
+              </tbody>
+            </table>
+          </GameInformation>
+        ) : null}
+      </Container>
     </Layout>
   );
 };

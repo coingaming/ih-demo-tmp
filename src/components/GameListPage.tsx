@@ -10,22 +10,19 @@ const List = styled.div`
 `;
 
 const GameItem = styled(Link)`
-  margin-right: 16px;
-  margin-bottom: 32px;
+  margin-right: 32px;
+  margin-bottom: 64px;
   text-decoration: none;
   color: initial;
   transition: opacity 0.2s linear;
   opacity: 1;
-  &:hover {
-    opacity: 0.7;
-  }
-`;
-
-const WrapperImage = styled.div`
   padding: 16px;
   border-radius: 4px;
   background-color: #fff;
   box-shadow: 0 0 8px 2px rgba(204, 204, 204, 0.51);
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 const Image = styled.img`
@@ -34,6 +31,7 @@ const Image = styled.img`
   width: 345px;
   height: 300px;
   border-radius: 4px;
+  object-fit: cover;
 `;
 
 const Placeholder = styled.div`
@@ -127,13 +125,12 @@ export const GameListPage: React.FC<RouteComponentProps> = () => {
       <List>
         {games.map(game => (
           <GameItem key={game.game_id} to={`/game/${game.game_id}`}>
-            <WrapperImage>
-              {game.url_thumb ? (
-                <Image src={game.url_thumb} alt={`${game.name} logo`} />
-              ) : (
-                <Placeholder>{game.name}</Placeholder>
-              )}
-            </WrapperImage>
+            {game.url_thumb ? (
+              <Image src={game.url_thumb} alt={`${game.name} logo`} />
+            ) : (
+              <Placeholder>{game.name}</Placeholder>
+            )}
+
             <Title>{game.name}</Title>
             <Subtitle>{game.product}</Subtitle>
           </GameItem>
