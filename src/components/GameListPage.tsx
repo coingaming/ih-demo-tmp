@@ -146,7 +146,7 @@ const SearchFormWrap = styled.form<SearchFormWrapProps>`
   transition: width 500ms cubic-bezier(0.23, 1, 0.32, 1) 0s;
   overflow: hidden;
   margin-right: 32px;
-  width: ${({ isExpanded }) => (isExpanded ? 280 : 40)}px;
+  width: ${({ isExpanded }) => (isExpanded ? 290 : 40)}px;
   display: flex;
   height: 40px;
   margin-bottom: 16px;
@@ -168,8 +168,12 @@ const ToggleSearch = styled.button`
   outline: none;
   border: none;
   min-width: 40px;
-  height: 40px;
+  min-height: 40px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0;
 
   color: rgb(169, 173, 178);
   &:hover {
