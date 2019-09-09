@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-import { useGames } from "./useGames";
 import { RouteComponentProps, Link } from "@reach/router";
 import styled from "styled-components";
 import { Layout } from "./Layout";
@@ -7,6 +6,7 @@ import { up } from "styled-breakpoints";
 import { ReactComponent as SearchIcon } from "./SearchIcon.svg";
 import { ReactComponent as CrossIcon } from "./CrossIcon.svg";
 import useOnClickOutside from "use-onclickoutside";
+import { useGamesContext } from "./GamesContext";
 
 const List = styled.div`
   display: flex;
@@ -238,7 +238,7 @@ export const GameListPage: React.FC<RouteComponentProps> = () => {
     setCategory,
     query,
     setQuery
-  } = useGames();
+  } = useGamesContext();
 
   return (
     <Layout
