@@ -5,6 +5,7 @@ type Game = {
   game_id: number;
   url_thumb: string;
   name: string;
+  product: string;
 };
 
 export const useGames = (): [Game[]] => {
