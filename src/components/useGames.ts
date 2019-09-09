@@ -5,6 +5,7 @@ import { Game, fixResponse } from "./game";
 export const useGames = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [category, setCategory] = useState<string | null>(null);
+  const [query, setQuery] = useState<string>("");
 
   useEffect(() => {
     axios
@@ -17,9 +18,15 @@ export const useGames = () => {
   const categories = [...new Set(games.map(game => game.category))];
 
   return {
-    games: category ? games.filter(game => game.category === category) : games,
+    games: games.filter(
+      game =>
+        (!category || game.category === category) &&
+        game.name.toLocaleLowerCase().includes(query.toLocaleLowerCase())
+    ),
     categories,
     category,
-    setCategory
+    setCategory,
+    query,
+    setQuery
   };
 };

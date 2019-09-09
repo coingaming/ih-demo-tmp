@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useGames } from "./useGames";
 import { RouteComponentProps, Link } from "@reach/router";
 import styled from "styled-components";
 import { Layout } from "./Layout";
 import { up } from "styled-breakpoints";
+import { ReactComponent as SearchIcon } from "./SearchIcon.svg";
 
 const List = styled.div`
   display: flex;
@@ -100,14 +101,15 @@ const FilterItemButton = styled.button<FilterButtonProps>`
   border-radius: 50px;
   background-color: #fff;
   outline: none;
-  color: ${({ active }) => (active ? "#ed8858" : "rgb(125, 131, 139)")};
+  color: ${({ active }) =>
+    active ? "rgb(255, 130, 71)" : "rgb(125, 131, 139)"};
   font-size: 14px;
   font-weight: 600;
   margin-right: 16px;
   margin-bottom: 16px;
   cursor: pointer;
   &:hover {
-    color: #ed8858;
+    color: rgb(255, 130, 71);
   }
   ${up("tablet")} {
     margin-bottom: 0;
@@ -131,18 +133,91 @@ const FilterItem: React.FC<FilterItemProps> = ({
   </div>
 );
 
+type SearchFormWrapProps = {
+  isExpanded: boolean;
+};
+
+const SearchFormWrap = styled.form<SearchFormWrapProps>`
+  background: rgb(255, 255, 255);
+  border-radius: 50px;
+  will-change: width;
+  transition: width 500ms cubic-bezier(0.23, 1, 0.32, 1) 0s;
+  overflow: hidden;
+  margin-right: 32px;
+  width: ${({ isExpanded }) => (isExpanded ? 240 : 40)}px;
+  display: flex;
+`;
+
+const SearchInput = styled.input`
+  height: 40px;
+  border: none;
+  outline: none;
+  padding: 0 8px;
+  flex: 1;
+`;
+
+const ToggleSearch = styled.button`
+  background: none;
+  outline: none;
+  border: none;
+  min-width: 40px;
+  height: 40px;
+  cursor: pointer;
+
+  color: rgb(169, 173, 178);
+  &:hover {
+    color: rgb(255, 130, 71);
+  }
+`;
+
+type SearchFormProps = {
+  value: string;
+  onChange: (value: string) => void;
+};
+
+const SearchForm: React.FC<SearchFormProps> = ({ value, onChange }) => {
+  const [isShow, setShow] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+  };
+
+  return (
+    <SearchFormWrap onSubmit={handleSubmit} isExpanded={isShow}>
+      <ToggleSearch onClick={() => setShow(show => !show)}>
+        <SearchIcon width="18px" height="18px" />
+      </ToggleSearch>
+      {isShow && (
+        <SearchInput
+          autoFocus
+          placeholder="Search games"
+          value={value}
+          onChange={e => {
+            const { value } = e.currentTarget;
+            onChange(value);
+          }}
+          onBlur={() => setShow(false)}
+        />
+      )}
+    </SearchFormWrap>
+  );
+};
+
 export const GameListPage: React.FC<RouteComponentProps> = () => {
   const {
     games,
     categories,
     category: activeCategory,
-    setCategory
+    setCategory,
+    query,
+    setQuery
   } = useGames();
 
   return (
     <Layout
       filterPocket={
         <Filters>
+          <SearchForm onChange={setQuery} value={query} />
           <FilterItem
             active={activeCategory === null}
             onClick={() => setCategory(null)}
