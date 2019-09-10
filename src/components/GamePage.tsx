@@ -45,6 +45,7 @@ const Frame = styled.iframe`
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 `;
 
 const GameInformation = styled.div`
