@@ -1,10 +1,11 @@
 import React from "react";
 import { useGameUrl } from "./useGameUrl";
-import { RouteComponentProps } from "@reach/router";
+import { RouteComponentProps, Link } from "@reach/router";
 import { Layout } from "./Layout";
 import styled from "styled-components";
 import { useGame } from "./useGame";
 import { up } from "styled-breakpoints";
+import { ReactComponent as CrossIcon } from "./CrossIcon.svg";
 
 type Props = RouteComponentProps & {
   gameId?: string;
@@ -67,6 +68,24 @@ const NameColumn = styled.td`
   color: #7e8389;
 `;
 
+const LinkPocket = styled.nav`
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const BackLink = styled(Link)`
+  color: #7e8389;
+  display: block;
+  width: 24px;
+  transition: opacity 0.2s linear;
+  opacity: 1;
+  margin-bottom: 16px;
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
 const capitalize = (s: string) => {
   if (typeof s !== "string") return "";
   return s.charAt(0).toLocaleUpperCase() + s.slice(1).toLocaleLowerCase();
@@ -78,7 +97,15 @@ export const GamePage: React.FC<Props> = props => {
   const [game] = useGame(gameId);
 
   return (
-    <Layout>
+    <Layout
+      filterPocket={
+        <LinkPocket>
+          <BackLink to="/">
+            <CrossIcon />
+          </BackLink>
+        </LinkPocket>
+      }
+    >
       <Container>
         <AspectContainer>
           {game && game.url_background ? (
