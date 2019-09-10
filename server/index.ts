@@ -35,7 +35,6 @@ hub88api.interceptors.request.use(config => {
 app.use(json());
 
 app.get("/api/games", (req, res) => {
-  console.log("call games");
   const message = { operator_id: operatorId };
 
   hub88api
