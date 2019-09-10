@@ -8,8 +8,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "80:80"
-  backend:
-    container_name: backend
+  demo-backend:
+    container_name: demo-backend
     build:
       context: server
       dockerfile: Dockerfile
