@@ -113,9 +113,6 @@ const FilterItemButton = styled.button<FilterButtonProps>`
   &:hover {
     color: rgb(255, 130, 71);
   }
-  ${up("tablet")} {
-    margin-bottom: 0;
-  }
 `;
 
 type FilterItemProps = {

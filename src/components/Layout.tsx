@@ -1,9 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "@reach/router";
+import { up } from "styled-breakpoints";
+import { ReactComponent as Logo } from "./Logo.svg";
 
 const Container = styled.main`
   padding: 24px;
+`;
+
+const LogoStyled = styled(Logo)`
+  margin-right: 16px;
 `;
 
 const StyledLink = styled(Link)`
@@ -11,6 +17,9 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   transition: opacity 0.2s linear;
   opacity: 1;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
   &:hover {
     opacity: 0.7;
   }
@@ -30,6 +39,9 @@ const Header = styled.header`
   align-items: center;
   box-sizing: border-box;
   flex-wrap: wrap;
+  ${up("tablet")} {
+    flex-wrap: nowrap;
+  }
 `;
 
 type Props = {
@@ -41,6 +53,7 @@ export const Layout: React.FC<Props> = ({ children, filterPocket }) => {
     <Container>
       <Header>
         <StyledLink to="/">
+          <LogoStyled />
           <h1>
             Hub88<Dot>.</Dot>io <Demo>Demo</Demo>
           </h1>

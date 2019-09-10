@@ -1,0 +1,14 @@
+<svg width="42px" height="41px" viewBox="0 0 42 41" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="(d)-Reports-/-Game-report" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.900000036">
+        <g id="Reports-/-Game-report-|-Card-view-(Top-Games)" transform="translate(-31.000000, -26.000000)">
+            <g id="Left" transform="translate(-1.000000, 0.000000)">
+                <g id="Logo" transform="translate(32.000000, 26.000000)">
+                    <path d="M15.5468378,2.21387319e-05 C22.4442408,0.0258673831 28.0171742,5.63371534 27.9999602,12.5311635 C27.9827462,19.4286116 22.3818913,25.0085729 15.4844453,24.9999901 C8.5869993,24.9914073 3.00004842,19.3975245 3,12.5000548 C3.01300222,5.58357174 8.63037282,-0.0128436328 15.5468378,2.21387319e-05 Z" id="Ellipse_1_copy_3" fill="#06BEE1"></path>
+                    <circle id="Ellipse_1_copy_4" fill="#1768AC" cx="22.5" cy="27.5" r="12.5"></circle>
+                    <ellipse id="Ellipse_1_copy_4-2" fill="#2541B2" cx="10" cy="31.5" rx="10" ry="9.5"></ellipse>
+                    <path d="M35.023778,19.0000103 C38.8866873,19.0131323 42.0087767,22.1529927 41.9999815,26.0159227 C41.9911863,29.8788527 38.8548315,33.0044637 34.9919025,32.9999952 C31.1289735,32.9955267 27.9998583,29.8626681 28,25.9997281 C28.0067246,22.1272742 31.1513323,18.9934385 35.023778,19.0000103 Z" id="Ellipse_1_copy_3-2" fill="#03256C"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
