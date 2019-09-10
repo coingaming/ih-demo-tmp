@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>Icon / Arrow / Double</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M7.04057137,8.74840061 C7.12898853,8.73917202 7.21242573,8.70289947 7.27954558,8.64451165 L10.3094682,6.04294871 C10.4473365,5.94962641 10.519605,5.78540489 10.4953735,5.62050125 C10.471142,5.45559762 10.3546998,5.31920173 10.1958347,5.26963313 C10.0369696,5.22006453 9.86380257,5.26609745 9.75037563,5.38804932 L6.99999928,7.75022538 L4.24962437,5.38804932 C4.13619743,5.26609745 3.96303042,5.22006453 3.80416533,5.26963313 C3.64530024,5.31920173 3.52885802,5.45559762 3.50462654,5.62050125 C3.48039505,5.78540489 3.55266354,5.94962641 3.69053177,6.04294871 L6.72045298,8.64451165 C6.80880679,8.72096896 6.9242456,8.75843266 7.04057137,8.74840061 Z" id="path-1"></path>
+        <path d="M7.04057137,8.74840061 C7.12898853,8.73917202 7.21242573,8.70289947 7.27954558,8.64451165 L10.3094682,6.04294871 C10.4473365,5.94962641 10.519605,5.78540489 10.4953735,5.62050125 C10.471142,5.45559762 10.3546998,5.31920173 10.1958347,5.26963313 C10.0369696,5.22006453 9.86380257,5.26609745 9.75037563,5.38804932 L6.99999928,7.75022538 L4.24962437,5.38804932 C4.13619743,5.26609745 3.96303042,5.22006453 3.80416533,5.26963313 C3.64530024,5.31920173 3.52885802,5.45559762 3.50462654,5.62050125 C3.48039505,5.78540489 3.55266354,5.94962641 3.69053177,6.04294871 L6.72045298,8.64451165 C6.80880679,8.72096896 6.9242456,8.75843266 7.04057137,8.74840061 Z" id="path-3"></path>
+    </defs>
+    <g id="Icon-/-Arrow-/-Double" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(5.000000, 1.000000)">
+            <g id="Icon-/-Arrow-/-Small" transform="translate(0.000000, 8.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="noun_Arrow_1769476" fill-rule="nonzero"></g>
+                <g id="Colour-/--Grey-/-Darkest" mask="url(#mask-2)" fill="#A8AAB0" fill-rule="evenodd">
+                    <g transform="translate(-5.000000, -5.000000)" id="Colour-/-Text-/-Grey">
+                        <rect x="0" y="0" width="24" height="24" rx="6"></rect>
+                    </g>
+                </g>
+            </g>
+            <g id="Icon-/-Arrow-/-Small" transform="translate(7.000000, 7.000000) rotate(-180.000000) translate(-7.000000, -7.000000) ">
+                <mask id="mask-4" fill="white">
+                    <use xlink:href="#path-3"></use>
+                </mask>
+                <g id="noun_Arrow_1769476" fill-rule="nonzero"></g>
+                <g id="Colour-/--Grey-/-Darkest" mask="url(#mask-4)" fill="#A8AAB0" fill-rule="evenodd">
+                    <g transform="translate(-5.000000, -5.000000)" id="Colour-/-Text-/-Grey">
+                        <rect x="0" y="0" width="24" height="24" rx="6"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

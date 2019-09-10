@@ -1,12 +1,18 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-export const useGameUrl = (gameId: number): [string] => {
+type Params = {
+  lang: string;
+};
+
+export const useGameUrl = (gameId: number, params: Params): [string] => {
   const [gameUrl, setGameUrl] = useState<string>("");
 
   useEffect(() => {
-    axios.get(`/api/game_url/${gameId}`).then(res => setGameUrl(res.data.url));
-  }, [gameId]);
+    axios
+      .get(`/api/game_url/${gameId}`, { params })
+      .then(res => setGameUrl(res.data.url));
+  }, [gameId, params]);
 
   return [gameUrl];
 };

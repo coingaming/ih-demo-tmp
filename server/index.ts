@@ -54,10 +54,10 @@ app.get("/api/game_url/:gameId", (req, res) => {
     game_id: Number(req.params.gameId),
     currency: "XXX",
     country: "EE",
-    lang: "en",
+    lang: req.query.lang || "en",
     lobby_url: "https://amazing-casino.com/lobby",
     ip: "142.245.172.168",
-    platform: "GPL_DESKTOP"
+    platform: req.query.platform || "GPL_DESKTOP"
   };
 
   hub88api

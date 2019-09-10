@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
 import { useGameUrl } from "./useGameUrl";
 import { RouteComponentProps, Link } from "@reach/router";
 import { Layout } from "./Layout";
@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { useGame } from "./useGame";
 import { up } from "styled-breakpoints";
 import { ReactComponent as CrossIcon } from "./CrossIcon.svg";
+import ArrowSelectIcon from "./ArrowSelectIcon.svg";
 
 type Props = RouteComponentProps & {
   gameId?: string;
@@ -66,7 +67,9 @@ const InfoTitle = styled.h3`
 
 const NameColumn = styled.td`
   padding-right: 16px;
+  padding-bottom: 8px;
   color: #7e8389;
+  vertical-align: center;
 `;
 
 const LinkPocket = styled.nav`
@@ -87,6 +90,24 @@ const BackLink = styled(Link)`
   }
 `;
 
+const Select = styled.select`
+  width: 158px;
+  height: 40px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid #dbe0e3;
+  padding: 0;
+  padding-left: 16px;
+  background: url(${ArrowSelectIcon}) no-repeat 125px center;
+  background-size: 24px;
+  outline: none;
+  cursor: pointer;
+  color: #1a212a;
+  user-select: none;
+  -webkit-appearance: button;
+`;
+
 const capitalize = (s: string) => {
   if (typeof s !== "string") return "";
   return s.charAt(0).toLocaleUpperCase() + s.slice(1).toLocaleLowerCase();
@@ -94,7 +115,17 @@ const capitalize = (s: string) => {
 
 export const GamePage: React.FC<Props> = props => {
   const gameId = Number(props.gameId);
-  const [gameUrl] = useGameUrl(gameId);
+
+  const [language, setLanguage] = useState("en");
+  const [platform, setPlatform] = useState("GPL_DESKTOP");
+
+  const params = useMemo(() => ({ lang: language, platform }), [
+    language,
+    platform
+  ]);
+
+  const [gameUrl] = useGameUrl(gameId, params);
+
   const [game] = useGame(gameId);
 
   return (
@@ -119,6 +150,47 @@ export const GamePage: React.FC<Props> = props => {
             <InfoTitle>Game information</InfoTitle>
             <table>
               <tbody>
+                <tr>
+                  <NameColumn>Language</NameColumn>
+                  <td>
+                    <Select
+                      value={language}
+                      onChange={e => setLanguage(e.currentTarget.value)}
+                    >
+                      <option value="en">English</option>
+                      <option value="ja">日本語</option>
+                      <option value="ru">Русский</option>
+                      <option value="pt">Português</option>
+                      <option value="zh">中文</option>
+                      <option value="es">Español</option>
+                      <option value="tr">Türkçe</option>
+                      <option value="ko">한국어</option>
+                      <option value="th">ภาษาไทย</option>
+                      <option value="de">Deutsch</option>
+                      <option value="fr">Français</option>
+                    </Select>
+                  </td>
+                </tr>
+                <tr>
+                  <NameColumn>Platform</NameColumn>
+                  <td>
+                    <Select
+                      value={platform}
+                      onChange={e => setPlatform(e.currentTarget.value)}
+                    >
+                      {game.platforms
+                        .map(platform => ({
+                          value: platform,
+                          label: capitalize(platform.replace("GPL_", ""))
+                        }))
+                        .map(item => (
+                          <option key={item.value} value={item.value}>
+                            {item.label}
+                          </option>
+                        ))}
+                    </Select>
+                  </td>
+                </tr>
                 <tr>
                   <NameColumn>Name</NameColumn>
                   <td>{game.name}</td>
