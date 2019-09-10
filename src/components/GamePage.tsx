@@ -204,14 +204,6 @@ export const GamePage: React.FC<Props> = props => {
                   <td>{game.product}</td>
                 </tr>
                 <tr>
-                  <NameColumn>Platforms</NameColumn>
-                  <td>
-                    {game.platforms
-                      .map(platform => capitalize(platform.replace("GPL_", "")))
-                      .join(", ")}
-                  </td>
-                </tr>
-                <tr>
                   <NameColumn>Freebet Support</NameColumn>
                   <td>{game.freebet_support ? "Yes" : "No"}</td>
                 </tr>
