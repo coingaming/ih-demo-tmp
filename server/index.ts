@@ -41,11 +41,9 @@ app.get("/api/games", (req, res) => {
   hub88api
     .post("/operator/generic/v2/game/list", message)
     .then(data => {
-      console.log("got resp");
       res.send(data.data);
     })
     .catch(e => {
-      console.log(e.response);
       res.status(400);
       res.send(e.response.data);
     });
