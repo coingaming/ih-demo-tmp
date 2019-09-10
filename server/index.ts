@@ -35,11 +35,13 @@ hub88api.interceptors.request.use(config => {
 app.use(json());
 
 app.get("/api/games", (req, res) => {
+  console.log("call games");
   const message = { operator_id: operatorId };
 
   hub88api
     .post("/operator/generic/v2/game/list", message)
     .then(data => {
+      console.log("got resp");
       res.send(data.data);
     })
     .catch(e => {
