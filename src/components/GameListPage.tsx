@@ -227,6 +227,23 @@ const SearchForm: React.FC<SearchFormProps> = ({ value, onChange }) => {
   );
 };
 
+const ShowAll = styled.button`
+  padding: 16px;
+  width: 100%;
+  text-align: center;
+  color: rgb(255, 130, 71);
+  transition: opacity 0.2s linear;
+  opacity: 1;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-weight: bold;
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
 export const GameListPage: React.FC<RouteComponentProps> = () => {
   const {
     games,
@@ -236,6 +253,8 @@ export const GameListPage: React.FC<RouteComponentProps> = () => {
     query,
     setQuery
   } = useGamesContext();
+
+  const [showAll, setShowAll] = useState(false);
 
   return (
     <Layout
@@ -261,7 +280,7 @@ export const GameListPage: React.FC<RouteComponentProps> = () => {
       }
     >
       <List>
-        {games.map(game => (
+        {(showAll ? games : games.slice(0, 20)).map(game => (
           <GameItem key={game.game_id} to={`/game/${game.game_id}`}>
             {game.url_thumb ? (
               <Image src={game.url_thumb} alt={`${game.name} logo`} />
@@ -274,6 +293,9 @@ export const GameListPage: React.FC<RouteComponentProps> = () => {
           </GameItem>
         ))}
       </List>
+      {!showAll && games.length > 20 ? (
+        <ShowAll onClick={() => setShowAll(true)}>Show all</ShowAll>
+      ) : null}
     </Layout>
   );
 };
