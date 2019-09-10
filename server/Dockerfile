@@ -3,5 +3,4 @@ WORKDIR /app
 COPY . /app
 RUN npm install --silent
 
-EXPOSE 4000
 CMD [ "npm", "start" ]
