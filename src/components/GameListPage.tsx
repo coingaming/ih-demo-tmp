@@ -10,7 +10,9 @@ import { useGamesContext } from "./GamesContext";
 
 const List = styled.div`
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
+  margin-right: -32px;
 `;
 
 const GameItem = styled(Link)`
@@ -33,34 +35,20 @@ const GameItem = styled(Link)`
 `;
 
 const Image = styled.img`
-  min-width: 295px;
-  min-height: 256px;
-  width: 295px;
-  height: 256px;
-
-  ${up("tablet")} {
-    min-width: 345px;
-    min-height: 300px;
-    width: 345px;
-    height: 300px;
-  }
+  min-width: 250px;
+  min-height: 215px;
+  width: 250px;
+  height: 215px;
 
   border-radius: 4px;
   object-fit: cover;
 `;
 
 const Placeholder = styled.div`
-  min-width: 295px;
-  min-height: 256px;
-  width: 295px;
-  height: 256px;
-
-  ${up("tablet")} {
-    min-width: 345px;
-    min-height: 300px;
-    width: 345px;
-    height: 300px;
-  }
+  min-width: 250px;
+  min-height: 215px;
+  width: 250px;
+  height: 215px;
 
   color: #7e8389;
   display: flex;
