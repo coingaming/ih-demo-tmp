@@ -10,12 +10,12 @@ import { useGamesContext } from "./GamesContext";
 
 const List = styled.div`
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
   margin-right: -32px;
 `;
 
 const GameItem = styled(Link)`
+  width: 250px;
   margin-bottom: 32px;
   text-decoration: none;
   color: initial;
