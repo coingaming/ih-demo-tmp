@@ -1,6 +1,12 @@
 import axios from "axios";
 
-const apiUrl = process.env.REACT_APP_API_URL || "";
+declare global {
+  interface Window {
+    RUNTIME_API_URL?: string;
+  }
+}
+
+const apiUrl = window.RUNTIME_API_URL || "";
 
 export const api = axios.create({
   baseURL: `${apiUrl}/api`
