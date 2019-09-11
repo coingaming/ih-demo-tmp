@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { Game, fixResponse } from "./game";
+import { api } from "./api";
 
 export const useGames = () => {
   const [games, setGames] = useState<Game[]>([]);
@@ -8,8 +8,8 @@ export const useGames = () => {
   const [query, setQuery] = useState<string>("");
 
   useEffect(() => {
-    axios
-      .get("/api/games")
+    api
+      .get("/games")
       .then(res => res.data)
       .then(fixResponse)
       .then(setGames);
