@@ -7,11 +7,14 @@ import { ReactComponent as SearchIcon } from "./SearchIcon.svg";
 import { ReactComponent as CrossIcon } from "./CrossIcon.svg";
 import useOnClickOutside from "use-onclickoutside";
 import { useGamesContext } from "./GamesContext";
+import { Game } from "./game";
 
 const List = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: -32px;
+  margin: auto;
+  max-width: 100%;
+  @media (min-width: 1200px) {
+    max-width: 1256px;
+  }
 `;
 
 const GameItem = styled(Link)`
@@ -61,10 +64,6 @@ const Placeholder = styled.div`
 const Title = styled.h3`
   font-size: 18px;
   margin: 16px 0 8px;
-`;
-
-const Subtitle = styled.div`
-  color: #7e8389;
 `;
 
 type FilterButtonProps = {
@@ -216,8 +215,9 @@ const SearchForm: React.FC<SearchFormProps> = ({ value, onChange }) => {
 };
 
 const ShowAll = styled.button`
+  margin-right: 16px;
+
   padding: 16px;
-  width: 100%;
   text-align: center;
   color: rgb(255, 130, 71);
   transition: opacity 0.2s linear;
@@ -232,6 +232,77 @@ const ShowAll = styled.button`
   }
 `;
 
+const ProductGames = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const ProductHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const ProductTitleWrap = styled.div`
+  flex: 1;
+`;
+
+const ProductTitle = styled.h3`
+  font-size: 22px;
+  line-height: 1.45;
+  font-weight: bold;
+  color: rgb(125, 131, 139);
+`;
+
+type ProductItemProps = {
+  gameProduct: {
+    product: string;
+    games: Game[];
+  };
+};
+
+const MAX_GAMES = 4;
+
+const ProductItem: React.FC<ProductItemProps> = ({ gameProduct }) => {
+  const [showAll, setShowAll] = useState(false);
+
+  let rightButton = null;
+
+  if (gameProduct.games.length > MAX_GAMES) {
+    rightButton = showAll ? (
+      <ShowAll onClick={() => setShowAll(false)}>Hide</ShowAll>
+    ) : (
+      <ShowAll onClick={() => setShowAll(true)}>Show all</ShowAll>
+    );
+  }
+
+  return (
+    <div>
+      <ProductHeader>
+        <ProductTitleWrap>
+          <ProductTitle>{gameProduct.product}</ProductTitle>
+        </ProductTitleWrap>
+        {rightButton}
+      </ProductHeader>
+      <ProductGames>
+        {(showAll
+          ? gameProduct.games
+          : gameProduct.games.slice(0, MAX_GAMES)
+        ).map(game => (
+          <GameItem key={game.game_id} to={`/game/${game.game_id}`}>
+            {game.url_thumb ? (
+              <Image src={game.url_thumb} alt={`${game.name} logo`} />
+            ) : (
+              <Placeholder>{game.name}</Placeholder>
+            )}
+
+            <Title>{game.name}</Title>
+          </GameItem>
+        ))}
+      </ProductGames>
+    </div>
+  );
+};
+
 export const GameListPage: React.FC<RouteComponentProps> = () => {
   const {
     games,
@@ -241,8 +312,6 @@ export const GameListPage: React.FC<RouteComponentProps> = () => {
     query,
     setQuery
   } = useGamesContext();
-
-  const [showAll, setShowAll] = useState(false);
 
   return (
     <Layout
@@ -268,22 +337,10 @@ export const GameListPage: React.FC<RouteComponentProps> = () => {
       }
     >
       <List>
-        {(showAll ? games : games.slice(0, 20)).map(game => (
-          <GameItem key={game.game_id} to={`/game/${game.game_id}`}>
-            {game.url_thumb ? (
-              <Image src={game.url_thumb} alt={`${game.name} logo`} />
-            ) : (
-              <Placeholder>{game.name}</Placeholder>
-            )}
-
-            <Title>{game.name}</Title>
-            <Subtitle>{game.product}</Subtitle>
-          </GameItem>
+        {games.map(gameProduct => (
+          <ProductItem key={gameProduct.product} gameProduct={gameProduct} />
         ))}
       </List>
-      {!showAll && games.length > 20 ? (
-        <ShowAll onClick={() => setShowAll(true)}>Show all</ShowAll>
-      ) : null}
     </Layout>
   );
 };
