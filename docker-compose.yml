@@ -8,8 +8,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - "80:80"
+    environment:
+      API_URL: http://demo-backend:4000
   demo-backend:
     container_name: demo-backend
     build:
       context: server
       dockerfile: Dockerfile
+    environment:
+      PORT: 4000
