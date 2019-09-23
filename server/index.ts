@@ -12,6 +12,8 @@ const operatorId = process.env.OPERATOR_ID
   : 816;
 const hub88Url = process.env.HUB88_URL || "http://server1.ih.testenv.io:8091";
 
+app.use("/healthcheck", require("express-healthcheck")());
+
 function readPem(filename: string) {
   return fs
     .readFileSync(path.resolve(__dirname, "priv/" + filename))
