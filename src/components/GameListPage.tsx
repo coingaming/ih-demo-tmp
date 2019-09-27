@@ -9,14 +9,6 @@ import useOnClickOutside from "use-onclickoutside";
 import { useGamesContext } from "./GamesContext";
 import { Game } from "./game";
 
-const List = styled.div`
-  margin: auto;
-  max-width: 100%;
-  @media (min-width: 1200px) {
-    max-width: 1256px;
-  }
-`;
-
 const GameItem = styled(Link)`
   width: 250px;
   margin-bottom: 32px;
@@ -73,10 +65,6 @@ type FilterButtonProps = {
 const Filters = styled.nav`
   display: flex;
   flex-wrap: wrap;
-
-  ${up("tablet")} {
-    margin-left: 32px;
-  }
 `;
 
 const FilterItemButton = styled.button<FilterButtonProps>`
@@ -136,6 +124,7 @@ const SearchFormWrap = styled.form<SearchFormWrapProps>`
   margin-bottom: 16px;
   ${up("tablet")} {
     margin-bottom: 0;
+    margin-left: 32px;
   }
 `;
 
@@ -145,6 +134,7 @@ const SearchInput = styled.input`
   outline: none;
   padding: 0 8px;
   flex: 1;
+  min-width: 195px;
 `;
 
 const ToggleSearch = styled.button`
@@ -314,33 +304,28 @@ export const GameListPage: React.FC<RouteComponentProps> = () => {
   } = useGamesContext();
 
   return (
-    <Layout
-      filterPocket={
-        <Filters>
-          <SearchForm onChange={setQuery} value={query} />
+    <Layout filterPocket={<SearchForm onChange={setQuery} value={query} />}>
+      <Filters>
+        <FilterItem
+          active={activeCategory === null}
+          onClick={() => setCategory(null)}
+        >
+          Casino Lobby
+        </FilterItem>
+        {categories.map(category => (
           <FilterItem
-            active={activeCategory === null}
-            onClick={() => setCategory(null)}
+            key={category}
+            active={activeCategory === category}
+            onClick={() => setCategory(category)}
           >
-            Casino Lobby
+            {category}
           </FilterItem>
-          {categories.map(category => (
-            <FilterItem
-              key={category}
-              active={activeCategory === category}
-              onClick={() => setCategory(category)}
-            >
-              {category}
-            </FilterItem>
-          ))}
-        </Filters>
-      }
-    >
-      <List>
-        {games.map(gameProduct => (
-          <ProductItem key={gameProduct.product} gameProduct={gameProduct} />
         ))}
-      </List>
+      </Filters>
+
+      {games.map(gameProduct => (
+        <ProductItem key={gameProduct.product} gameProduct={gameProduct} />
+      ))}
     </Layout>
   );
 };

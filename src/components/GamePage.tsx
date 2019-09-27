@@ -22,8 +22,8 @@ const AspectContainer = styled.div`
   margin-bottom: 32px;
   ${up("tablet")} {
     margin-bottom: 0;
-    width: 50%;
-    padding-top: 28.1%;
+    width: 60%;
+    padding-top: 33.7%;
   }
 `;
 
@@ -36,6 +36,7 @@ const BackgroundImage = styled.img`
 `;
 
 const Frame = styled.iframe`
+  border: none;
   position: absolute;
   top: 0;
   left: 0;

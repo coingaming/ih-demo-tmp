@@ -6,6 +6,11 @@ import { ReactComponent as Logo } from "./Logo.svg";
 
 const Container = styled.main`
   padding: 24px;
+  margin: auto;
+  max-width: 100%;
+  @media (min-width: 1200px) {
+    max-width: 1256px;
+  }
 `;
 
 const LogoStyled = styled(Logo)`
@@ -19,6 +24,7 @@ const StyledLink = styled(Link)`
   opacity: 1;
   margin-bottom: 16px;
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
   &:hover {
     opacity: 0.7;
@@ -44,6 +50,10 @@ const Header = styled.header`
   }
 `;
 
+const HeaderTitle = styled.h1`
+  white-space: nowrap;
+`;
+
 type Props = {
   filterPocket?: React.ReactNode;
 };
@@ -54,9 +64,9 @@ export const Layout: React.FC<Props> = ({ children, filterPocket }) => {
       <Header>
         <StyledLink to="/">
           <LogoStyled />
-          <h1>
+          <HeaderTitle>
             Hub88<Dot>.</Dot>io <Demo>Demo</Demo>
-          </h1>
+          </HeaderTitle>
         </StyledLink>
         {filterPocket}
       </Header>
