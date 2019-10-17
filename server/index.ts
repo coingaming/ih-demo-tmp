@@ -11,6 +11,7 @@ const operatorId = process.env.OPERATOR_ID
   ? Number(process.env.OPERATOR_ID)
   : 816;
 const hub88Url = process.env.HUB88_URL || "http://server1.ih.testenv.io:8091";
+const lobbyUrl = process.env.LOBBY_URL || "https://demo.hub88.io";
 
 app.use("/healthcheck", require("express-healthcheck")());
 
@@ -137,7 +138,7 @@ app.get("/api/game_url/:gameId", (req, res) => {
     currency: "XXX",
     country: "EE",
     lang: req.query.lang || "en",
-    lobby_url: "https://amazing-casino.com/lobby",
+    lobby_url: lobbyUrl,
     ip: "142.245.172.168",
     platform: req.query.platform || "GPL_DESKTOP"
   };
