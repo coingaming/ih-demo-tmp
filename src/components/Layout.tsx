@@ -14,6 +14,7 @@ const Container = styled.main`
 `;
 
 const LogoStyled = styled(Logo)`
+  width: 170px;
   margin-right: 16px;
 `;
 
@@ -31,15 +32,6 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const Dot = styled.span`
-  color: #64ca74;
-  font-size: 36px;
-`;
-
-const Demo = styled.span`
-  font-weight: normal;
-`;
-
 const Header = styled.header`
   display: flex;
   align-items: center;
@@ -48,10 +40,6 @@ const Header = styled.header`
   ${up("tablet")} {
     flex-wrap: nowrap;
   }
-`;
-
-const HeaderTitle = styled.h1`
-  white-space: nowrap;
 `;
 
 type Props = {
@@ -64,9 +52,6 @@ export const Layout: React.FC<Props> = ({ children, filterPocket }) => {
       <Header>
         <StyledLink to="/">
           <LogoStyled />
-          <HeaderTitle>
-            Hub88<Dot>.</Dot>io <Demo>Demo</Demo>
-          </HeaderTitle>
         </StyledLink>
         {filterPocket}
       </Header>
