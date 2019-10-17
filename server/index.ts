@@ -52,6 +52,12 @@ const ALLOWED_GAME_CODES = [
   "clt_cuteycats"
 ];
 
+const indexMap: { [k: string]: number } = {
+  OneTouch: 3,
+  "Kalamba Games": 2,
+  Caleta: 1
+};
+
 app.use(json());
 
 app.get("/api/games", (req, res) => {
@@ -61,9 +67,13 @@ app.get("/api/games", (req, res) => {
     .post("/operator/generic/v2/game/list", message)
     .then(data => {
       res.send(
-        data.data.filter((game: { game_code: string }) =>
-          ALLOWED_GAME_CODES.includes(game.game_code)
-        )
+        data.data
+          .filter((game: { game_code: string }) =>
+            ALLOWED_GAME_CODES.includes(game.game_code)
+          )
+          .sort((a: { product: string }, b: { product: string }) => {
+            return (indexMap[b.product] || 0) - (indexMap[a.product] || 0);
+          })
       );
     })
     .catch(e => {
