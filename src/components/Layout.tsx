@@ -4,13 +4,20 @@ import { Link } from "@reach/router";
 import { up } from "styled-breakpoints";
 import { ReactComponent as Logo } from "./Logo.svg";
 
-const Container = styled.main`
+type ContainerProps = {
+  fixed: boolean;
+};
+
+const Container = styled.main<ContainerProps>`
   padding: 24px;
   margin: auto;
   max-width: 100%;
-  @media (min-width: 1200px) {
+  ${({ fixed }) =>
+    fixed
+      ? `@media (min-width: 1200px) {
     max-width: 1256px;
-  }
+  }`
+      : ""}
 `;
 
 const LogoStyled = styled(Logo)`
@@ -44,11 +51,16 @@ const Header = styled.header`
 
 type Props = {
   filterPocket?: React.ReactNode;
+  fixed?: boolean;
 };
 
-export const Layout: React.FC<Props> = ({ children, filterPocket }) => {
+export const Layout: React.FC<Props> = ({
+  children,
+  filterPocket,
+  fixed = true
+}) => {
   return (
-    <Container>
+    <Container fixed={fixed}>
       <Header>
         <StyledLink to="/">
           <LogoStyled />

@@ -22,8 +22,8 @@ const AspectContainer = styled.div`
   margin-bottom: 32px;
   ${up("tablet")} {
     margin-bottom: 0;
-    width: 60%;
-    padding-top: 33.7%;
+    width: 50%;
+    padding-top: 28.1%;
   }
 `;
 
@@ -131,6 +131,7 @@ export const GamePage: React.FC<Props> = props => {
 
   return (
     <Layout
+      fixed={false}
       filterPocket={
         <LinkPocket>
           <BackLink to="/">
