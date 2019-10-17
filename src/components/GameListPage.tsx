@@ -10,16 +10,13 @@ import { useGamesContext } from "./GamesContext";
 import { Game } from "./game";
 
 const GameItem = styled(Link)`
-  width: 250px;
+  width: 208px;
   margin-bottom: 32px;
   text-decoration: none;
   color: initial;
   transition: opacity 0.2s linear;
   opacity: 1;
-  padding: 16px;
   border-radius: 4px;
-  background-color: #fff;
-  box-shadow: 0 0 8px 2px rgba(204, 204, 204, 0.51);
   &:hover {
     opacity: 0.7;
   }
@@ -30,21 +27,25 @@ const GameItem = styled(Link)`
 `;
 
 const Image = styled.img`
-  min-width: 250px;
-  min-height: 215px;
-  width: 250px;
-  height: 215px;
+  min-width: 208px;
+  min-height: 156px;
+  width: 208px;
+  height: 156px;
 
   border-radius: 4px;
   object-fit: cover;
 `;
 
 const Placeholder = styled.div`
-  min-width: 250px;
-  min-height: 215px;
-  width: 250px;
-  height: 215px;
+  min-width: 208px;
+  min-height: 156px;
+  width: 208px;
+  height: 156px;
 
+  box-sizing: border-box;
+  padding: 16px;
+  border-radius: 4px;
+  background-color: #fff;
   color: #7e8389;
   display: flex;
   align-items: center;
@@ -201,7 +202,7 @@ type ProductItemProps = {
   };
 };
 
-const MAX_GAMES = 4;
+const MAX_GAMES = 5;
 
 const ProductItem: React.FC<ProductItemProps> = ({ gameProduct }) => {
   const [showAll, setShowAll] = useState(false);
