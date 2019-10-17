@@ -1,29 +1,32 @@
 import React, { useState, useMemo } from "react";
 import { useGameUrl } from "./useGameUrl";
-import { RouteComponentProps, Link } from "@reach/router";
-import { Layout } from "./Layout";
+import { RouteComponentProps } from "@reach/router";
 import styled from "styled-components";
 import { useGame } from "./useGame";
 import { up } from "styled-breakpoints";
+import { ReactComponent as InfoIcon } from "./InfoIcon.svg";
 import { ReactComponent as CrossIcon } from "./CrossIcon.svg";
 import ArrowSelectIcon from "./ArrowSelectIcon.svg";
+import { LogoLink } from "./LogoLink";
 
 type Props = RouteComponentProps & {
   gameId?: string;
 };
 
 const AspectContainer = styled.div`
-  height: 0;
+  height: 100%;
   width: 100%;
-  overflow: hidden;
-  padding-top: 75%;
-  position: relative;
-  border-radius: 4px;
-  margin-bottom: 32px;
+  padding-top: 0;
+  background-color: #000;
   ${up("tablet")} {
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
     margin-bottom: 0;
     width: 50%;
     padding-top: 28.1%;
+    background: none;
+    margin-bottom: 32px;
   }
 `;
 
@@ -42,6 +45,9 @@ const Frame = styled.iframe`
   left: 0;
   width: 100%;
   height: 100%;
+  border: none;
+  margin: 0;
+  padding: none;
 `;
 
 const Container = styled.div`
@@ -50,15 +56,26 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const GameInformation = styled.div`
+type GameInformationProps = {
+  show: boolean;
+};
+
+const GameInformation = styled.div<GameInformationProps>`
+  position: absolute;
   padding: 16px;
   background-color: #fff;
   border-radius: 4px;
   box-shadow: 0 0 8px 2px rgba(204, 204, 204, 0.51);
   flex: 1;
+  align-items: center;
+  display: ${({ show }) => (show ? "block" : "none")};
+  top: 30%;
   ${up("tablet")} {
+    display: block;
+    position: initial;
     margin-left: 32px;
     flex: initial;
+    margin-bottom: 32px;
   }
 `;
 
@@ -71,24 +88,6 @@ const NameColumn = styled.td`
   padding-bottom: 8px;
   color: #7e8389;
   vertical-align: center;
-`;
-
-const LinkPocket = styled.nav`
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-`;
-
-const BackLink = styled(Link)`
-  color: #7e8389;
-  display: block;
-  width: 24px;
-  transition: opacity 0.2s linear;
-  opacity: 1;
-  margin-bottom: 16px;
-  &:hover {
-    opacity: 0.7;
-  }
 `;
 
 const Select = styled.select`
@@ -109,6 +108,25 @@ const Select = styled.select`
   -webkit-appearance: button;
 `;
 
+const InfoIconSlot = styled.div`
+  position: absolute;
+  top: -4px;
+  z-index: 1;
+  display: block;
+  color: #9199b6;
+  ${up("tablet")} {
+    display: none;
+  }
+`;
+
+const Header = styled.header`
+  padding: 32px;
+  display: none;
+  ${up("tablet")} {
+    display: block;
+  }
+`;
+
 const capitalize = (s: string) => {
   if (typeof s !== "string") return "";
   return s.charAt(0).toLocaleUpperCase() + s.slice(1).toLocaleLowerCase();
@@ -117,8 +135,12 @@ const capitalize = (s: string) => {
 export const GamePage: React.FC<Props> = props => {
   const gameId = Number(props.gameId);
 
+  const isMobile = window.innerWidth < 768;
+
   const [language, setLanguage] = useState("en");
-  const [platform, setPlatform] = useState("GPL_DESKTOP");
+  const [platform, setPlatform] = useState(
+    isMobile ? "GPL_MOBILE" : "GPL_DESKTOP"
+  );
 
   const params = useMemo(() => ({ lang: language, platform }), [
     language,
@@ -129,26 +151,36 @@ export const GamePage: React.FC<Props> = props => {
 
   const [game] = useGame(gameId);
 
+  const [showInformation, setShowInfromation] = useState(false);
+
   return (
-    <Layout
-      fixed={false}
-      filterPocket={
-        <LinkPocket>
-          <BackLink to="/">
-            <CrossIcon />
-          </BackLink>
-        </LinkPocket>
-      }
-    >
+    <>
+      <Header>
+        <LogoLink />
+      </Header>
+
+      <InfoIconSlot>
+        {showInformation ? (
+          <CrossIcon onClick={() => setShowInfromation(false)} />
+        ) : (
+          <InfoIcon onClick={() => setShowInfromation(true)} />
+        )}
+      </InfoIconSlot>
       <Container>
         <AspectContainer>
           {game && game.url_background ? (
             <BackgroundImage src={game.url_background} />
           ) : null}
-          <Frame src={gameUrl} title="game" frameBorder="none" />
+          <Frame
+            allowFullScreen={isMobile}
+            scrolling="no"
+            src={gameUrl}
+            title="game"
+            frameBorder="none"
+          />
         </AspectContainer>
         {game ? (
-          <GameInformation>
+          <GameInformation show={showInformation}>
             <InfoTitle>Game information</InfoTitle>
             <table>
               <tbody>
@@ -214,6 +246,6 @@ export const GamePage: React.FC<Props> = props => {
           </GameInformation>
         ) : null}
       </Container>
-    </Layout>
+    </>
   );
 };
