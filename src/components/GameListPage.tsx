@@ -33,7 +33,7 @@ const Image = styled.img`
   height: 156px;
 
   border-radius: 4px;
-  object-fit: cover;
+  object-fit: contain;
 `;
 
 const Placeholder = styled.div`

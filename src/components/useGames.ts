@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Game, fixResponse } from "./game";
 import { api } from "./api";
 
-const filerGames = (
+const filterGames = (
   list: Game[],
   filter: { category: string | null; query: string }
 ) =>
@@ -43,7 +43,7 @@ export const useGames = () => {
   const categories = [...new Set(games.map(game => game.category))];
 
   return {
-    games: groupByProduct(filerGames(games, { query, category })),
+    games: groupByProduct(filterGames(games, { query, category })),
     categories,
     category,
     setCategory,

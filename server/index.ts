@@ -58,6 +58,38 @@ const indexMap: { [k: string]: number } = {
   Caleta: 1
 };
 
+const hardcodedGames = [
+  {
+    product: "Green Jade",
+    game_id: -1,
+    name: "Hammer of Fortune",
+    game_url:
+      "https://gjg.immortalonline.com/HammerOfFortune/live/index.html?mode=fun",
+    url_thumb:
+      "https://greenjade.com/wp-content/uploads/2018/09/logo-uai-1032x652.png",
+    platforms: []
+  },
+  {
+    product: "Green Jade",
+    game_id: -2,
+    name: "Coin Flip Deluxe",
+    game_url:
+      "https://gjg.immortalonline.com/coinflipdeluxe/live/index.html?mode=fun",
+    url_thumb:
+      "https://greenjade.com/wp-content/uploads/2018/09/Coin-Flip-Logo_a.png",
+    platforms: []
+  },
+  {
+    product: "Green Jade",
+    game_id: -3,
+    name: "Spin Bet Station",
+    game_url: "http://spinbetstation.immortalonline.com/spinbetstation/stage/",
+    url_thumb:
+      "https://greenjade.com/wp-content/uploads/2018/09/Logo_marketing_01.png",
+    platforms: []
+  }
+];
+
 app.use(json());
 
 app.get("/api/games", (req, res) => {
@@ -67,13 +99,14 @@ app.get("/api/games", (req, res) => {
     .post("/operator/generic/v2/game/list", message)
     .then(data => {
       res.send(
-        data.data
-          .filter((game: { game_code: string }) =>
+        [
+          ...data.data.filter((game: { game_code: string }) =>
             ALLOWED_GAME_CODES.includes(game.game_code)
-          )
-          .sort((a: { product: string }, b: { product: string }) => {
-            return (indexMap[b.product] || 0) - (indexMap[a.product] || 0);
-          })
+          ),
+          ...hardcodedGames
+        ].sort((a: { product: string }, b: { product: string }) => {
+          return (indexMap[b.product] || 0) - (indexMap[a.product] || 0);
+        })
       );
     })
     .catch(e => {
@@ -83,9 +116,17 @@ app.get("/api/games", (req, res) => {
 });
 
 app.get("/api/game_url/:gameId", (req, res) => {
+  const gameId = Number(req.params.gameId);
+
+  const fakeGame = hardcodedGames.find(game => game.game_id === gameId);
+  if (fakeGame) {
+    res.send({ url: fakeGame.game_url });
+    return;
+  }
+
   const message = {
     operator_id: operatorId,
-    game_id: Number(req.params.gameId),
+    game_id: gameId,
     currency: "XXX",
     country: "EE",
     lang: req.query.lang || "en",
