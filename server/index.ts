@@ -34,6 +34,24 @@ hub88api.interceptors.request.use(config => {
   return config;
 });
 
+const ALLOWED_GAME_CODES = [
+  "ont_steamvault",
+  "ont_goldenstripe",
+  "ont_luckylion",
+  "ont_watfordslot",
+  "ont_fortuneminer-3reels",
+  "klg_treeofgold",
+  "klg_monkeygod",
+  "klg_jokersupreme",
+  "klg_mermaidsgalore",
+  "klg_bangkokdreams",
+  "clt_dragonrising",
+  "clt_basketballpro",
+  "clt_magicforest",
+  "clt_lostsaga",
+  "clt_cuteycats"
+];
+
 app.use(json());
 
 app.get("/api/games", (req, res) => {
@@ -42,7 +60,11 @@ app.get("/api/games", (req, res) => {
   hub88api
     .post("/operator/generic/v2/game/list", message)
     .then(data => {
-      res.send(data.data);
+      res.send(
+        data.data.filter((game: { game_code: string }) =>
+          ALLOWED_GAME_CODES.includes(game.game_code)
+        )
+      );
     })
     .catch(e => {
       res.status(400);
