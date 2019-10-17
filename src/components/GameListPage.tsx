@@ -58,55 +58,6 @@ const Title = styled.h3`
   margin: 16px 0 8px;
 `;
 
-type FilterButtonProps = {
-  active: boolean;
-};
-
-const Filters = styled.nav`
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const FilterItemButton = styled.button<FilterButtonProps>`
-  border-radius: 18px;
-  padding-right: 16px;
-  padding-left: 16px;
-  height: 40px;
-  border: none;
-  border-top: 2px solid transparent;
-  border-bottom: 2px solid transparent;
-  border-radius: 50px;
-  background-color: #fff;
-  outline: none;
-  color: ${({ active }) =>
-    active ? "rgb(255, 130, 71)" : "rgb(125, 131, 139)"};
-  font-size: 14px;
-  font-weight: 600;
-  margin-right: 16px;
-  margin-bottom: 16px;
-  cursor: pointer;
-  &:hover {
-    color: rgb(255, 130, 71);
-  }
-`;
-
-type FilterItemProps = {
-  active: boolean;
-  onClick: () => void;
-};
-
-const FilterItem: React.FC<FilterItemProps> = ({
-  children,
-  active,
-  onClick
-}) => (
-  <div>
-    <FilterItemButton active={active} onClick={onClick}>
-      {children}
-    </FilterItemButton>
-  </div>
-);
-
 type SearchFormWrapProps = {
   isExpanded: boolean;
 };
@@ -294,35 +245,10 @@ const ProductItem: React.FC<ProductItemProps> = ({ gameProduct }) => {
 };
 
 export const GameListPage: React.FC<RouteComponentProps> = () => {
-  const {
-    games,
-    categories,
-    category: activeCategory,
-    setCategory,
-    query,
-    setQuery
-  } = useGamesContext();
+  const { games, query, setQuery } = useGamesContext();
 
   return (
     <Layout filterPocket={<SearchForm onChange={setQuery} value={query} />}>
-      <Filters>
-        <FilterItem
-          active={activeCategory === null}
-          onClick={() => setCategory(null)}
-        >
-          Casino Lobby
-        </FilterItem>
-        {categories.map(category => (
-          <FilterItem
-            key={category}
-            active={activeCategory === category}
-            onClick={() => setCategory(category)}
-          >
-            {category}
-          </FilterItem>
-        ))}
-      </Filters>
-
       {games.map(gameProduct => (
         <ProductItem key={gameProduct.product} gameProduct={gameProduct} />
       ))}
