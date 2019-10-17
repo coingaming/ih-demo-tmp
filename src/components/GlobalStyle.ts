@@ -11,7 +11,6 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: #ecf1f2;
-    overflow: hidden;
     margin:  0;
     padding: 0;
   }
