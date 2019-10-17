@@ -34,6 +34,8 @@ hub88api.interceptors.request.use(config => {
   return config;
 });
 
+type Game = {};
+
 const ALLOWED_GAME_CODES = [
   "ont_steamvault",
   "ont_goldenstripe",
@@ -92,22 +94,27 @@ const hardcodedGames = [
 
 app.use(json());
 
+let games: Game[];
+
 app.get("/api/games", (req, res) => {
+  if (games) {
+    return res.send(games);
+  }
+
   const message = { operator_id: operatorId };
 
   hub88api
     .post("/operator/generic/v2/game/list", message)
     .then(data => {
-      res.send(
-        [
-          ...data.data.filter((game: { game_code: string }) =>
-            ALLOWED_GAME_CODES.includes(game.game_code)
-          ),
-          ...hardcodedGames
-        ].sort((a: { product: string }, b: { product: string }) => {
-          return (indexMap[b.product] || 0) - (indexMap[a.product] || 0);
-        })
-      );
+      games = [
+        ...data.data.filter((game: { game_code: string }) =>
+          ALLOWED_GAME_CODES.includes(game.game_code)
+        ),
+        ...hardcodedGames
+      ].sort((a: { product: string }, b: { product: string }) => {
+        return (indexMap[b.product] || 0) - (indexMap[a.product] || 0);
+      });
+      res.send(games);
     })
     .catch(e => {
       res.status(400);
