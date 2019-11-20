@@ -37,24 +37,6 @@ hub88api.interceptors.request.use(config => {
 
 type Game = {};
 
-const ALLOWED_GAME_CODES = [
-  "ont_steamvault",
-  "ont_goldenstripe",
-  "ont_luckylion",
-  "ont_watfordslot",
-  "ont_fortuneminer-3reels",
-  "klg_treeofgold",
-  "klg_monkeygod",
-  "klg_jokersupreme",
-  "klg_mermaidsgalore",
-  "klg_bangkokdreams",
-  "clt_dragonrising",
-  "clt_basketballpro",
-  "clt_magicforest",
-  "clt_lostsaga",
-  "clt_cuteycats"
-];
-
 const indexMap: { [k: string]: number } = {
   OneTouch: 3,
   "Kalamba Games": 2,
@@ -105,16 +87,11 @@ app.get("/api/games", (req, res) => {
   const message = { operator_id: operatorId };
 
   hub88api
-    .post("/operator/generic/v2/game/list", message)
+    .post<{ product: string }[]>("/operator/generic/v2/game/list", message)
     .then(data => {
-      games = [
-        ...data.data.filter((game: { game_code: string }) =>
-          ALLOWED_GAME_CODES.includes(game.game_code)
-        ),
-        ...hardcodedGames
-      ].sort((a: { product: string }, b: { product: string }) => {
-        return (indexMap[b.product] || 0) - (indexMap[a.product] || 0);
-      });
+      games = [...data.data, ...hardcodedGames].sort(
+        (a, b) => (indexMap[b.product] || 0) - (indexMap[a.product] || 0)
+      );
       res.send(games);
     })
     .catch(e => {
