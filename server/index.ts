@@ -59,6 +59,18 @@ const indexMap: { [k: string]: number } = {
   "Common Genii": 82
 };
 
+const nameReplacements: { [k: string]: string } = {
+  Kalamba: "Kalamba Games",
+  Quickfire: "Microgaming",
+  Caleta: "Caleta Gaming",
+  RedTiger: "Red Tiger Gaming",
+  Blueprint: "Blueprint Gaming",
+  Netent: "NetEnt",
+  Playngo: "Play'n GO",
+  Booming: "Booming Games",
+  "Common Genii": "Genii"
+};
+
 const hardcodedGames = [
   {
     product: "Green Jade",
@@ -105,9 +117,14 @@ app.get("/api/games", (req, res) => {
   hub88api
     .post<{ product: string }[]>("/operator/generic/v2/game/list", message)
     .then(data => {
-      games = [...data.data, ...hardcodedGames].sort(
-        (a, b) => (indexMap[b.product] || 0) - (indexMap[a.product] || 0)
-      );
+      games = [...data.data, ...hardcodedGames]
+        .sort((a, b) => (indexMap[b.product] || 0) - (indexMap[a.product] || 0))
+        .map(game => ({
+          ...game,
+          product: nameReplacements[game.product]
+            ? nameReplacements[game.product]
+            : game.product
+        }));
       res.send(games);
     })
     .catch(e => {
