@@ -38,9 +38,25 @@ hub88api.interceptors.request.use(config => {
 type Game = {};
 
 const indexMap: { [k: string]: number } = {
-  OneTouch: 3,
-  "Kalamba Games": 2,
-  Caleta: 1
+  OneTouch: 100,
+  Kalamba: 99,
+  Caleta: 98,
+  "Green Jade": 97,
+  Quickfire: 96,
+  RedTiger: 95,
+  Quickspin: 94,
+  Blueprint: 93,
+  Netent: 92,
+  Playngo: 91,
+  Yggdrasil: 90,
+  "Golden Hero": 89,
+  GameArt: 88,
+  BetSoft: 87,
+  Booming: 86,
+  "Pragmatic Play": 85,
+  "Tom Horn": 84,
+  Wazdan: 83,
+  "Common Genii": 82
 };
 
 const hardcodedGames = [
