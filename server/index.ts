@@ -143,7 +143,8 @@ const loadGames = async (operatorId: number) => {
 };
 
 app.get("/api/games", (req, res) => {
-  return loadGames(partners[req.query.partner || ""])
+  const operator = partners[req.query.partner || ""];
+  return loadGames(operator)
     .then(games => res.send(games))
     .catch(e => {
       console.log(e);
