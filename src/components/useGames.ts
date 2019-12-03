@@ -27,18 +27,18 @@ const groupByProduct = (list: Game[]) => {
   }));
 };
 
-export const useGames = () => {
+export const useGames = (partner?: string) => {
   const [games, setGames] = useState<Game[]>([]);
   const [category, setCategory] = useState<string | null>(null);
   const [query, setQuery] = useState<string>("");
 
   useEffect(() => {
     api
-      .get("/games")
+      .get("/games", { params: { partner } })
       .then(res => res.data)
       .then(fixResponse)
       .then(setGames);
-  }, []);
+  }, [partner]);
 
   const categories = [...new Set(games.map(game => game.category))];
 

@@ -9,9 +9,21 @@ const app = express();
 const port = process.env.PORT ? Number(process.env.PORT) : 4000;
 const operatorId = process.env.OPERATOR_ID
   ? Number(process.env.OPERATOR_ID)
-  : 816;
-const hub88Url = process.env.HUB88_URL || "http://server1.ih.testenv.io:8091";
+  : 22;
+const bbinOperatorId = process.env.BBIN_OPERATOR_ID
+  ? Number(process.env.BBIN_OPERATOR_ID)
+  : 23;
+const casumoOperatorId = process.env.CASUMO_OPERATOR_ID
+  ? Number(process.env.CASUMO_OPERATOR_ID)
+  : 24;
+const hub88Url = process.env.HUB88_URL || "https://api.hub88.io";
 const lobbyUrl = process.env.LOBBY_URL || "https://demo.hub88.io";
+
+const partners: { [k: string]: number } = {
+  "": operatorId,
+  bbin: bbinOperatorId,
+  casumo: casumoOperatorId
+};
 
 app.use("/healthcheck", require("express-healthcheck")());
 
@@ -105,19 +117,19 @@ const hardcodedGames = [
 
 app.use(json());
 
-let games: Game[];
+const games: { [k: string]: Game[] } = {};
 
-app.get("/api/games", (req, res) => {
-  if (games) {
-    return res.send(games);
+const loadGames = async (operatorId: number) => {
+  if (games[operatorId]) {
+    return games[operatorId];
   }
 
-  const message = { operator_id: operatorId };
-
-  hub88api
-    .post<{ product: string }[]>("/operator/generic/v2/game/list", message)
+  return hub88api
+    .post<{ product: string }[]>("/operator/generic/v2/game/list", {
+      operator_id: operatorId
+    })
     .then(data => {
-      games = [...data.data, ...hardcodedGames]
+      games[operatorId] = [...data.data, ...hardcodedGames]
         .sort((a, b) => (indexMap[b.product] || 0) - (indexMap[a.product] || 0))
         .map(game => ({
           ...game,
@@ -125,9 +137,16 @@ app.get("/api/games", (req, res) => {
             ? nameReplacements[game.product]
             : game.product
         }));
-      res.send(games);
-    })
+
+      return games[operatorId];
+    });
+};
+
+app.get("/api/games", (req, res) => {
+  return loadGames(partners[req.query.partner || ""])
+    .then(games => res.send(games))
     .catch(e => {
+      console.log(e);
       res.status(400);
       res.send(e.response.data);
     });
@@ -159,7 +178,7 @@ app.get("/api/game_url/:gameId", (req, res) => {
       res.send(data.data);
     })
     .catch(e => {
-      console.log(e.response);
+      console.log(e);
       res.status(400);
       res.send(e.response.data);
     });
