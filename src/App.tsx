@@ -15,7 +15,7 @@ const App: React.FC = () => {
       <Router>
         <GameListPage path="/" />
         <PartnerGameListPage path="/bbin" partner="bbin" />
-        <PartnerGameListPage path="/casumo" partner="casumo" />
+        <PartnerGameListPage path="/gv" partner="casumo" />
         <SupplierGameListPage path="/s/:supplier" />
         <GamePage path="/game/:gameId" />
       </Router>
